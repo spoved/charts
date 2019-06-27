@@ -54,7 +54,7 @@ initialize_vault() {
         --header "Content-Type: application/json" \
         --header "${API_HEADER}" \
         --request PUT \
-        --data "{ \"apiVersion\": \"v1\", \"data\": { \"keys\": \"${encoded_keys}\" }, \"kind\": \"Secret\", \"metadata\": { \"name\": \"vault-keys\", \"namespace\": \"default\" }, \"type\": \"Opaque\" }" \
+        --data "{ \"apiVersion\": \"v1\", \"data\": { \"keys\": \"${encoded_keys}\" }, \"kind\": \"Secret\", \"metadata\": { \"name\": \"vault-keys\", \"namespace\": \"${NAMESPACE}\" }, \"type\": \"Opaque\" }" \
         ${VAULT_KEYS_SECRET_URL}
 
       if [ "$?" -ne "0" ]; then

@@ -26,10 +26,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: vault-keys-edit
   labels:
-    app: {{ template "vault.name" . }}
-    chart: {{ template "vault.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+{{ include "vault.standard" . | indent 4 }}
 rules:
 - apiGroups: [""]
   resources: ["secrets"]
@@ -46,10 +43,7 @@ metadata:
     rbac.authorization.kubernetes.io/autoupdate: "true"
   labels:
     kubernetes.io/bootstrapping: rbac-defaults
-    app: {{ template "vault.name" . }}
-    chart: {{ template "vault.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+{{ include "vault.standard" . | indent 4 }}
   name: system:serviceaccount:vault-helper
   namespace: {{ .Release.Namespace }}
 roleRef:
@@ -65,12 +59,12 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.16.0 (0c01309)
+{{ toYaml .Values.annotations | indent 4 }}
   creationTimestamp: null
   labels:
-    io.kompose.service: vault-helper
-  name: vault-helper
+{{ include "vault.standard" . | indent 4 }}
+    component: helper
+  name: {{ .Chart.Name }}-helper
 spec:
   replicas: 1
   strategy: {}
@@ -78,10 +72,8 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: {{ template "vault.name" . }}
-        chart: {{ template "vault.chart" . }}
-        release: {{ .Release.Name }}
-        heritage: {{ .Release.Service }}
+{{ include "vault.standard" . | indent 8 }}
+        component: helper
     spec:
       containers:
       - name: "{{ .Chart.Name }}-helper"

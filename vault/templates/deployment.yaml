@@ -21,6 +21,7 @@ spec:
     metadata:
       labels:
 {{ include "vault.standard" . | indent 8 }}
+        component: server
       annotations:
 {{ toYaml .Values.podAnnotations | indent 8 }}
     spec:
