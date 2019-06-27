@@ -1,0 +1,101 @@
+{{- if .Values.helper.enabled }}
+apiVersion: v1
+data:
+  keys: e30K
+kind: Secret
+metadata:
+  name: vault-keys
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "vault.standard" . | indent 4 }}
+type: Opaque
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-helper
+  labels:
+{{ include "vault.standard" . | indent 4 }}
+automountServiceAccountToken: true
+imagePullSecrets:
+- name: vault-keys
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: vault-keys-edit
+  labels:
+    app: {{ template "vault.name" . }}
+    chart: {{ template "vault.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  resourceNames: ["vault-keys"]
+  verbs: ["get", "update"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+    app: {{ template "vault.name" . }}
+    chart: {{ template "vault.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  name: system:serviceaccount:vault-helper
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: vault-keys-edit
+subjects:
+- kind: ServiceAccount
+  name: vault-helper
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: vault-helper
+  name: vault-helper
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: {{ template "vault.name" . }}
+        chart: {{ template "vault.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+    spec:
+      containers:
+      - name: "{{ .Chart.Name }}-helper"
+        image: "{{ .Values.helper.image.repository }}:{{ .Values.helper.image.tag }}"
+        imagePullPolicy: "{{ .Values.helper.image.pullPolicy }}"
+        resources: {}
+        volumeMounts:
+        - name: keys
+          mountPath: "/etc/keys"
+          readOnly: false
+      volumes:
+      - name: keys
+        secret:
+          secretName: vault-keys
+      restartPolicy: Always
+      serviceAccountName: vault-helper
+{{- end }}

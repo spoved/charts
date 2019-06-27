@@ -1,0 +1,22 @@
+{{- $syncEnabled := (or (and (ne (.Values.syncCatalog.enabled | toString) "-") .Values.syncCatalog.enabled) (and (eq (.Values.syncCatalog.enabled | toString) "-") .Values.global.enabled)) }}
+{{- if $syncEnabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "consul.fullname" . }}-sync-catalog
+  labels:
+{{ include "consul.standard" . | indent 4 }}
+rules:
+  - apiGroups: [""]
+    resources:
+      - services
+      - endpoints
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+      - create
+{{- end }}
