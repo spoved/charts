@@ -1,8 +1,0 @@
-# See https://github.com/helm/chart-testing#configuration
-remote: origin
-target-branch: master
-chart-dirs:
-  - charts
-helm-extra-args: --timeout 600s
-chart-repos:
-  - ndustrial=https://spoved.github.io/charts

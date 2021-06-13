@@ -1,8 +1,0 @@
-# To get check each server pod
-kubectl --namespace {{ .Release.Namespace }} get pods -l "app={{ template "consul.name" . }},release={{ .Release.Name }},component=server" -o json | \
-  jq -r ".items[] | select(.status.phase | contains(\"Running\")) | .metadata.name" | \
-  awk '{print "kubectl --namespace {{ .Release.Namespace }} exec "$1" consul members"}' | sh
-
-# To get the UI port
-kubectl --namespace {{ .Release.Namespace }} get svc -l "app={{ template "consul.name" . }},release={{ .Release.Name }},component=service" -o json | \
-  jq -r ".items[0].spec.ports[] | select(.name | contains(\"http\")) | .nodePort"
