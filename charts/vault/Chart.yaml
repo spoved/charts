@@ -6,8 +6,8 @@ description: A Helm chart for Vault, a tool for managing secrets
 home: https://www.vaultproject.io/
 icon: https://www.vaultproject.io/assets/images/mega-nav/logo-vault-0f83e3d2.svg
 sources:
-- https://github.com/hashicorp/vault
-- https://github.com/hashicorp/docker-vault
+  - https://github.com/hashicorp/vault
+  - https://github.com/hashicorp/docker-vault
 maintainers:
-- name: Holden Omans
-  email: holden.omans@gmail.com
+  - name: Holden Omans
+    email: holden.omans@gmail.com

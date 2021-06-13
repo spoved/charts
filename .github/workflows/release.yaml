@@ -20,5 +20,5 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          charts_repo_url: https://ndustrialio.github.io/charts
-          charts_dir: ndustrial
+          charts_repo_url: https://spoved.github.io/charts
+          charts_dir: charts

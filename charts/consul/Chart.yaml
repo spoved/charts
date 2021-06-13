@@ -9,7 +9,5 @@ sources:
   - https://github.com/hashicorp/consul-helm
   - https://github.com/hashicorp/consul-k8s
 maintainers:
-- name: DevOps
-  email: devops@optanix.com
-- name: Holden Omans
-  email: holden.omans@optanix.com
+  - name: Holden Omans
+    email: holden.omans@gmail.com

@@ -33,7 +33,8 @@ server:
   enabled: "-"
   image: null
   replicas: 3
-  bootstrapExpect: 3 # Should <= replicas count
+  # Should <= replicas count
+  bootstrapExpect: 3
   service:
     # serviceType can be used to control the type of service created. For
     # example, setting this to "LoadBalancer" will create an external load
@@ -80,7 +81,8 @@ server:
   # extraVolumes is a list of extra volumes to mount. These will be exposed
   # to Consul in the path `/consul/userconfig/<name>/`. The value below is
   # an array of objects, examples are shown below.
-  extraVolumes: []
+  extraVolumes:
+    []
     # - type: secret (or "configMap")
     #   name: my-secret
     #   load: false # if true, will add to `-config-dir` to load by Consul
@@ -124,7 +126,8 @@ client:
   # extraVolumes is a list of extra volumes to mount. These will be exposed
   # to Consul in the path `/consul/userconfig/<name>/`. The value below is
   # an array of objects, examples are shown below.
-  extraVolumes: []
+  extraVolumes:
+    []
     # - type: secret (or "configMap")
     #   name: my-secret
     #   load: false # if true, will add to `-config-dir` to load by Consul
@@ -166,7 +169,8 @@ syncCatalog:
   # True if you want to enable the catalog sync. "-" for default.
   enabled: false
   image: null
-  default: true # true will sync by default, otherwise requires annotation
+  # true will sync by default, otherwise requires annotation
+  default: true
 
   # toConsul and toK8S control whether syncing is enabled to Consul or K8S
   # as a destination. If both of these are disabled, the sync will do nothing.
@@ -187,8 +191,10 @@ syncCatalog:
 # ConnectInject will enable the automatic Connect sidecar injector.
 connectInject:
   enabled: false
-  image: null # image for consul-k8s that contains the injector
-  default: false # true will inject by default, otherwise requires annotation
+  # image for consul-k8s that contains the injector
+  image: null
+  # true will inject by default, otherwise requires annotation
+  default: false
 
   # imageConsul and imageEnvoy can be set to Docker images for Consul and
   # Envoy, respectively. If the Consul image is not specified, the global
