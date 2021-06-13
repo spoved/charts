@@ -1,0 +1,52 @@
+apiVersion: v1
+entries:
+  app:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2021-06-13T13:46:20.538788872Z"
+    description: A Helm chart to assist in building generic deployments
+    digest: 4bdb4610c61947cc2961c1f87015edb6b84a8be82ddd83219c0dd80fc3f0cdd9
+    maintainers:
+    - email: holden.omans@gmail.com
+      name: Holden Omans
+    name: app
+    urls:
+    - https://github.com/spoved/charts/releases/download/app-0.1.1/app-0.1.1.tgz
+    version: 0.1.1
+  consul:
+  - apiVersion: v1
+    appVersion: 1.3.1
+    created: "2021-06-13T13:46:20.676566129Z"
+    description: Install and configure Consul on Kubernetes.
+    digest: c92cc2eb3965481d04ac045a1a567d25dadd088c7472f1ddc7d50f24cd4dd533
+    home: https://www.consul.io
+    maintainers:
+    - email: holden.omans@gmail.com
+      name: Holden Omans
+    name: consul
+    sources:
+    - https://github.com/hashicorp/consul
+    - https://github.com/hashicorp/consul-helm
+    - https://github.com/hashicorp/consul-k8s
+    urls:
+    - https://github.com/spoved/charts/releases/download/consul-0.1.4/consul-0.1.4.tgz
+    version: 0.1.4
+  vault:
+  - apiVersion: v1
+    appVersion: 0.11.2
+    created: "2021-06-13T13:46:20.809856448Z"
+    description: A Helm chart for Vault, a tool for managing secrets
+    digest: ff47a874c92346afdec2837459f1c0db915ab223fc008910be3db5102fded7ce
+    home: https://www.vaultproject.io/
+    icon: https://www.vaultproject.io/assets/images/mega-nav/logo-vault-0f83e3d2.svg
+    maintainers:
+    - email: holden.omans@gmail.com
+      name: Holden Omans
+    name: vault
+    sources:
+    - https://github.com/hashicorp/vault
+    - https://github.com/hashicorp/docker-vault
+    urls:
+    - https://github.com/spoved/charts/releases/download/vault-0.1.0/vault-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-06-13T13:46:20.336428774Z"
