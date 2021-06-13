@@ -1,0 +1,84 @@
+{{- if .Values.volumes }}
+{{- $root := . }}
+{{- range $index, $volume := .Values.volumes }}
+{{- with $volume }}
+
+
+{{- if hasKey . "storageClass" }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+{{ include "app.labels" $root | indent 4 }}
+  name: {{ $root.Release.Name }}-{{ .name | default $index }}-pvc
+spec:
+  {{- if hasKey . "accessModes" }}
+  accessModes:
+    {{- range $i, $mode := .accessModes }}
+    - {{ $mode }}
+    {{- end }}
+  {{- else }}
+  accessModes:
+  - ReadWriteOnce
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .size }}
+  storageClassName: {{ .storageClass }}
+  volumeMode: {{ .volumeMode | default "Filesystem" }}
+  {{- if hasKey . "volumeName" }}
+  volumeName: {{ .volumeName }}
+  {{- end }}
+{{- else if hasKey . "volumeName" }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+{{ include "app.labels" $root | indent 4 }}
+  name: {{ $root.Release.Name }}-{{ .name | default $index }}-pvc
+spec:
+  {{- if hasKey . "accessModes" }}
+  accessModes:
+    {{- range $i, $mode := .accessModes }}
+    - {{ $mode }}
+    {{- end }}
+  {{- else }}
+  accessModes:
+  - ReadWriteOnce
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .size }}
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: {{ .volumeName }}
+{{- else if hasKey . "create" }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+{{ include "app.labels" $root | indent 4 }}
+  name: {{ $root.Release.Name }}-{{ .name | default $index }}-pvc
+spec:
+  {{- if hasKey . "accessModes" }}
+  accessModes:
+    {{- range $i, $mode := .accessModes }}
+    - {{ $mode }}
+    {{- end }}
+  {{- else }}
+  accessModes:
+  - ReadWriteOnce
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .size }}
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: {{ $root.Release.Name }}-{{ .name }}-pv
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

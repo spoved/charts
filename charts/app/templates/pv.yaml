@@ -1,0 +1,64 @@
+{{- if .Values.volumes }}
+{{- $root := . }}
+{{- range $index, $volume := .Values.volumes }}
+{{- with $volume }}
+{{- if hasKey . "create" }}
+{{- if .create }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+{{ include "app.labels" $root | indent 4 }}
+{{- if hasKey . "volumeName" }}
+  name: {{ .volumeName }}
+{{- else }}
+  name: {{ $root.Release.Name }}-{{ .name | default $index }}-pv
+{{- end }}
+spec:
+  {{- if hasKey . "accessModes" }}
+  accessModes:
+    {{- range $i, $mode := .accessModes }}
+    - {{ $mode }}
+    {{- end }}
+  {{- else }}
+  accessModes:
+  - ReadWriteOnce
+  {{- end }}
+  capacity:
+    storage: {{ .size }}
+  storageClassName: {{ .storageClass | default "" }}
+  persistentVolumeReclaimPolicy: {{ .persistentVolumeReclaimPolicy | default "Retain" }}
+  volumeMode: {{ .volumeMode | default "Filesystem" }}
+{{- if hasKey . "csi" }}
+  csi:
+    {{- toYaml .csi | nindent 4 }}
+{{- end }}
+{{- if hasKey . "mountOptions" }}
+  mountOptions:
+    {{- toYaml .mountOptions | nindent 4 }}
+{{- end }}
+{{- if hasKey . "nfs" }}
+  nfs:
+    path: {{ .nfs.path }}
+    server: {{ .nfs.server }}
+{{- else if hasKey . "hostPath" }}
+  hostPath:
+    path: {{ .hostPath }}
+    type: ""
+{{- end }}
+{{- if hasKey . "host" }}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - {{ .host }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
