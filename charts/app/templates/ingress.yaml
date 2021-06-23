@@ -39,18 +39,18 @@ spec:
       http:
         paths:
         {{- range .paths }}
-          - path: {{ . }}
+          - path: {{ .path }}
             {{- if semverCompare ">=1.19-0" $k8sver }}
             pathType: ImplementationSpecific
             backend:
               service:
-                name: {{ $fullName }}
+                name: {{ default $fullName .serviceName }}
                 port:
-                  name: {{ $portName }}
+                  name: {{ default $portName .servicePort }}
             {{- else }}
             backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $portName }}
+              serviceName: {{ default $fullName .serviceName }}
+              servicePort: {{ default $portName .servicePort }}
             {{- end }}
         {{- end }}
   {{- $portName = "http" -}}
