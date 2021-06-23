@@ -43,10 +43,15 @@ spec:
             {{- if semverCompare ">=1.19-0" $k8sver }}
             pathType: ImplementationSpecific
             backend:
+              {{- if hasKey . "service" }}
               service:
-                name: {{ default $fullName .serviceName }}
+                {{- toYaml .service | nindent 16 }}
+              {{- else }}
+              service:
+                name: {{ $fullName }}
                 port:
-                  name: {{ default $portName .servicePort }}
+                  name: {{ $portName }}
+              {{- end }}
             {{- else }}
             backend:
               serviceName: {{ default $fullName .serviceName }}
