@@ -6,3 +6,4 @@ chart-dirs:
 helm-extra-args: --timeout 600s
 chart-repos:
   - ndustrial=https://spoved.github.io/charts
+validate-maintainers: false
