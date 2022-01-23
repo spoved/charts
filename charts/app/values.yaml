@@ -21,6 +21,12 @@ ports: []
 #   path: /
 #   port: http
 
+strategy:
+  rollingUpdate:
+    maxSurge: 0
+    maxUnavailable: 25%
+  type: RollingUpdate
+
 volumes: []
 
 debug: false
