@@ -21,11 +21,11 @@ ports: []
 #   path: /
 #   port: http
 
-strategy:
-  rollingUpdate:
-    maxSurge: 0
-    maxUnavailable: 25%
-  type: RollingUpdate
+# strategy:
+#   rollingUpdate:
+#     maxSurge: 0
+#     maxUnavailable: 25%
+#   type: RollingUpdate
 
 volumes: []
 
@@ -90,3 +90,9 @@ terminationGracePeriodSeconds: 10
 podSecurityContext: {}
 
 securityContext: {}
+
+updateStrategy:
+  ## @param updateStrategy.type Deployment deployment update strategy
+  type: RollingUpdate
+  ## @param updateStrategy.rollingUpdate Deployment deployment rolling update configuration parameters
+  rollingUpdate: {}
