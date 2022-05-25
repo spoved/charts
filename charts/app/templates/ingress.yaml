@@ -44,7 +44,7 @@ spec:
         {{- range .paths }}
           - path: {{ .path }}
             {{- if semverCompare ">=1.19-0" $k8sver }}
-            pathType: ImplementationSpecific
+            pathType: {{ default "ImplementationSpecific" .pathType }}
             backend:
               {{- if hasKey . "service" }}
               service:

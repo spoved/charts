@@ -133,6 +133,9 @@ spec:
               {{- end }}
               {{- end }}
             {{- end }}
+            {{- if hasKey . "mountPropagation" }}
+              mountPropagation: {{ .mountPropagation }}
+            {{- end }}
           {{- end }}
           {{- end }}
         {{- end }}
