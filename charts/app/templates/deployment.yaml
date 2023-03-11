@@ -19,6 +19,10 @@ spec:
   template:
     metadata:
       labels:
+        {{- if .Values.istio.enabled }}
+        app: {{ .Release.Name }}
+        version: {{ .Chart.Version }}
+        {{- end }}
         app.kubernetes.io/name: {{ include "app.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         kalinon.com/group: {{ include "app.name" . }}
@@ -26,6 +30,10 @@ spec:
 {{- if .Values.labels }}
       {{- toYaml .Values.labels | nindent 8 }}
 {{- end }}
+      {{- with .Values.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
     {{- if .Values.dnsConfig }}
       dnsConfig:
