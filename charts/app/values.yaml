@@ -96,3 +96,6 @@ updateStrategy:
   type: RollingUpdate
   ## @param updateStrategy.rollingUpdate Deployment deployment rolling update configuration parameters
   rollingUpdate: {}
+
+istio:
+  enabled: false
