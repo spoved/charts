@@ -2,6 +2,18 @@ apiVersion: v1
 entries:
   app:
   - apiVersion: v2
+    appVersion: 0.1.11
+    created: "2023-03-12T15:04:58.42258805Z"
+    description: A Helm chart to assist in building generic deployments
+    digest: 3aebae233ef8fec0685714179a0a2c106f2b5a8a8a235dca48a7d16b1f3da48b
+    maintainers:
+    - email: holden.omans@gmail.com
+      name: Holden Omans
+    name: app
+    urls:
+    - https://github.com/spoved/charts/releases/download/app-0.1.11/app-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
     appVersion: 0.1.10
     created: "2023-03-11T21:45:55.604862402Z"
     description: A Helm chart to assist in building generic deployments
