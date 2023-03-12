@@ -99,3 +99,8 @@ updateStrategy:
 
 istio:
   enabled: false
+  hosts: []
+  gateway:
+    namespace: istio-system
+    selector:
+      istio: ingressgateway
