@@ -38,11 +38,19 @@ Common labels
 app.kubernetes.io/name: {{ include "app.name" . }}
 helm.sh/chart: {{ include "app.chart" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-kalinon.com/app: {{ .Release.Name }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+kalinon.com/group: {{ include "app.name" . }}
+kalinon.com/app: {{ .Release.Name }}
+{{- if .Values.labels }}
+    {{- toYaml .Values.labels | nindent 0 }}
+{{- end }}
+{{- if .Values.istio.enabled }}
+app: {{ .Release.Name }}
+version: {{ .Chart.Version }}
+{{- end }}
 {{- end -}}
 
 {{/*

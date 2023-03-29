@@ -10,9 +10,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-{{- if .Values.labels }}
-  {{- toYaml .Values.labels | nindent 4 }}
-{{- end }}
 {{ include "app.labels" $root | indent 4 }}
   name: {{ $root.Release.Name }}-{{ .name | default $index }}-pvc
 spec:

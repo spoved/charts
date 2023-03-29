@@ -9,9 +9,6 @@ metadata:
   name: {{ $fullName }}-cert
   namespace: {{ .Values.istio.gateway.namespace }}
   labels:
-{{- if .Values.labels }}
-  {{- toYaml .Values.labels | nindent 4 }}
-{{- end }}
 {{ include "app.labels" . | indent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
@@ -33,9 +30,6 @@ kind: Gateway
 metadata:
   name: {{ $fullName }}-gateway
   labels:
-{{- if .Values.labels }}
-  {{- toYaml .Values.labels | nindent 4 }}
-{{- end }}
 {{ include "app.labels" . | indent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
@@ -63,9 +57,7 @@ kind: VirtualService
 metadata:
   name: {{ $fullName }}
   labels:
-{{- if .Values.labels }}
-  {{- toYaml .Values.labels | nindent 4 }}
-{{- end }}
+{{ include "app.labels" . | indent 4 }}
 spec:
   hosts:
     {{- range .Values.istio.hosts }}

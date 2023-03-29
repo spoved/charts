@@ -104,3 +104,4 @@ istio:
     namespace: istio-system
     selector:
       istio: ingressgateway
+# labels: {}

@@ -14,9 +14,6 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-{{- if .Values.labels }}
-  {{- toYaml .Values.labels | nindent 4 }}
-{{- end }}
 {{ include "app.labels" . | indent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:

@@ -4,9 +4,6 @@ metadata:
   name: {{ include "app.fullname" . }}
   labels:
 {{ include "app.labels" . | indent 4 }}
-{{- if .Values.labels }}
-  {{- toYaml .Values.labels | nindent 4 }}
-{{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.strategy }}
@@ -19,17 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- if .Values.istio.enabled }}
-        app: {{ .Release.Name }}
-        version: {{ .Chart.Version }}
-        {{- end }}
-        app.kubernetes.io/name: {{ include "app.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        kalinon.com/group: {{ include "app.name" . }}
-        kalinon.com/app: {{ .Release.Name }}
-{{- if .Values.labels }}
-      {{- toYaml .Values.labels | nindent 8 }}
-{{- end }}
+{{ include "app.labels" . | indent 8 }}
       {{- with .Values.annotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
