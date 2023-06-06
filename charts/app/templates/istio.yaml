@@ -66,6 +66,9 @@ spec:
   gateways:
     - {{ $fullName }}-gateway
   http:
+  {{- if not (empty .Values.istio.extraRoutes) }}
+{{ toYaml .Values.istio.extraRoutes | nindent 4 }}
+  {{- end }}
     - route:
         - destination:
             host: {{$fullName}}.{{ .Release.Namespace }}.svc.cluster.local

@@ -100,6 +100,7 @@ updateStrategy:
 istio:
   enabled: false
   hosts: []
+  extraRoutes: []
   gateway:
     namespace: istio-system
     selector:
