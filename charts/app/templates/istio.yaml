@@ -1,6 +1,5 @@
 {{- if .Values.istio.enabled -}}
 {{- $fullName := include "app.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
 {{- $portName := "http" -}}
 ---
 apiVersion: cert-manager.io/v1
@@ -73,6 +72,6 @@ spec:
         - destination:
             host: {{$fullName}}.{{ .Release.Namespace }}.svc.cluster.local
             port:
-              number: {{default $svcPort 80}}
+              number: {{default .Values.istio.targetPort 80}}
           weight: 100
 {{- end }}
