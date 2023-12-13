@@ -1,0 +1,19 @@
+{{- $root := . }}
+{{- range $index, $service := .Values.services }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ $service.name }}-cert
+  namespace: istio-system
+  labels:
+{{ include "istio-service.labels" $root | indent 4 }}
+spec:
+  dnsNames:
+{{ toYaml $service.hosts | indent 4 }}
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  secretName: {{ $service.name }}-tls
+{{- end }}

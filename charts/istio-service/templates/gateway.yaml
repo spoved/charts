@@ -1,0 +1,24 @@
+{{- $root := . }}
+{{- range $index, $service := .Values.services }}
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ $service.name }}-gateway
+  labels:
+{{ include "istio-service.labels" $root | indent 4 }}
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+{{ toYaml $service.hosts | indent 8 }}
+      name: https
+      port:
+        name: https-443
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: {{ $service.name }}-tls
+        mode: SIMPLE
+{{- end }}

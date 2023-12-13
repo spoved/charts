@@ -1,0 +1,22 @@
+{{- $root := . }}
+{{- range $index, $service := .Values.services }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: {{ $service.name }}
+  labels:
+{{ include "istio-service.labels" $root | indent 4 }}
+spec:
+  hosts:
+{{ toYaml $service.hosts | indent 4 }}
+  addresses:
+    - {{ $service.ip }}
+  ports:
+    - number: {{ $service.port }}
+      name: http
+      protocol: HTTP
+  resolution: STATIC
+  endpoints:
+    - address: {{ $service.ip }}
+{{- end }}
