@@ -13,9 +13,13 @@ spec:
   addresses:
     - {{ $service.ip }}
   ports:
+{{- if $service.ports }}
+{{ toYaml $service.ports | indent 4 }}
+{{- else }}
     - number: {{ $service.port }}
       name: http
       protocol: HTTP
+{{- end }}
   resolution: STATIC
   endpoints:
     - address: {{ $service.ip }}

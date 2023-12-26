@@ -13,10 +13,14 @@ spec:
   gateways:
     - {{ $service.name }}-gateway
   http:
+{{- if $service.routes }}
+{{ toYaml $service.routes | indent 4 }}
+{{- else }}
     - route:
         - destination:
             host: {{$service.hosts | first}}
             port:
               number: {{ $service.port }}
           weight: 100
+{{- end }}
 {{- end }}
